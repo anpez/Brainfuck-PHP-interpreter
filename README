@@ -1,0 +1,3 @@
+A small Brainfuck interpreter written in PHP.
+Done as a solution to a Solveet exercise (http://www.solveet.com/exercises/Brainfuck/74).
+It uses lambda-functions, so PHP 5.3+ is required.
