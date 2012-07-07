@@ -34,8 +34,42 @@ class Brainfuck
 			'-' => function($obj) { --$obj->_mem[$obj->_dp]; },
 			'.' => function($obj) { printf('%c', $obj->_mem[$obj->_dp]); },
 			',' => function($obj) { fscanf(STDIN, '%c', $chr); $obj->_mem[$obj->_dp] = ord($chr); },
-			'[' => function($obj) { if (!$obj->_mem[$obj->_dp]) { while(']' != $obj->_program[$obj->_ip]) ++$obj->_ip; } },
-			']' => function($obj) { while('[' != $obj->_program[$obj->_ip--]); }
+			'[' => function($obj)
+			{
+				if (!$obj->_mem[$obj->_dp])
+				{
+					$count = 1;
+					while($count)
+					{
+						switch($obj->_program[++$obj->_ip])
+						{
+							case '[':
+								++$count;
+								break;
+							case ']':
+								--$count;
+								break;
+						}
+					}
+				}
+			},
+			']' => function($obj)
+			{
+				$count = 1;
+				while($count)
+				{
+					switch($obj->_program[--$obj->_ip])
+					{
+						case ']':
+							++$count;
+							break;
+						case '[':
+							--$count;
+							break;
+					}
+				}
+				--$obj->_ip;
+			}
 		);
 	}
 
